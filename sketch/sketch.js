@@ -7,7 +7,13 @@ var sounds
 function preload() {
 	soundFormats("wav");
 	sounds = {
-		a: loadSound("./sfx/hightom")
+		a: (() => {
+			var x = loadSound("./sfx/hightom");
+			x.setVolume(0.25);
+			x.rate(1.25);
+			return x;
+		})(),
+		b: loadSound("./sfx/Electronic high shot")
 	}
 }
 
@@ -31,10 +37,11 @@ function draw() {
   fill(255, 0, 0)
   player.update()
   player.draw()
-  bottles.forEach(element => {
-    element.update()
-    element.draw()
-  })
+  var i = 0;
+  while(bottles.length > 0 && bottles[i]){
+	bottles[i].update();
+	i++;
+  }
 }
 
 function clickHandler() {

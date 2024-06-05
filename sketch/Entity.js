@@ -20,6 +20,8 @@ class BoundingBox {
    * Entity class
    */
   class Entity {
+	id = "";
+
 	update() {
 	  this.bounds.update(this.xPos, this.yPos)
 	}
@@ -37,7 +39,8 @@ class BoundingBox {
 	constructor(xPos, yPos, width, height = width) {
 	  this.xPos = xPos
 	  this.yPos = yPos
-	  this.bounds = new BoundingBox(xPos, yPos, width, height)
+	  this.bounds = new BoundingBox(xPos, yPos, width, height);
+	  this.id = Math.random()*100000;
 	}
   }
   
@@ -87,9 +90,20 @@ class BoundingBox {
   
 	update() {
 	  this.yPos += this.fallSpeed
+	  if(this.yPos > height){
+		console.warn("yes", bottles.indexOf(this));
+		bottles.splice(bottles.indexOf(this), 1);
+	  }
 	  super.update()
-	  if (this.isCollidingWith(player)) {
+	  if (this.isCollidingWith(player) && this.color.A > 0) {
 		this.color.A = 0
+		sounds.b.setVolume(0.5);
+		sounds.b.rate(1.5);
+		sounds.b.play();
+		bottles.splice(bottles.indexOf(this), 1);
+	  }
+	  else{
+		this.draw();
 	  }
 	}
   
