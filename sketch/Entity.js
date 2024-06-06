@@ -1,3 +1,6 @@
+/**
+ * Bounding box class for spatial calculations
+ */
 class BoundingBox {
 	constructor(x, y, w, h) {
 	  	this.left = x
@@ -17,15 +20,29 @@ class BoundingBox {
 }
   
 /**
- * Entity class
+ * Entity class  
+ * Sets fundamental properties for any Entity  
+ * @member ID: a hexadecimal string to identify the Entity 
+ * @member Texture: a p5 Texture object, or a string "none" if no texture exists  
+ * @member Bounds: a bounding box object, for spatial calculations  
+ * @function isCollidingWith(): a function for checking overlap with other entities' bounds  
  */
 class Entity {
-	//super update, should be called when bounding box changes have been made
+
+	ID = "";
+	Texture = "none";
+	Bounds = {};
+
+	//super update, should be called when bounding box changes have been made.
 	update() {
 	  this.bounds.update(this.xPos, this.yPos)
 	}
 
-	//Collision check
+	/**
+	 * Collision check with other Entities (or inheritors)
+	 * @param {Entity} otherEntity 
+	 * @returns (boolean)
+	 */
 	isCollidingWith(otherEntity) {
 	  var b1 = this.bounds
 	  var b2 = otherEntity.bounds
@@ -36,20 +53,28 @@ class Entity {
 	  )
 	}
 	
-	//Create the bounding box for this entity.
-	//If no height is supplied, width is used.
+	/**
+	 * Create the bounding box and assign id for this Entity
+	 * @param {number} xPos
+	 * @param {number} yPos
+	 * @param {number} width
+	 * @param {number} height if no height is supplied, width is used.
+	 */
 	constructor(xPos, yPos, width, height = width) {
 	  this.xPos = xPos
 	  this.yPos = yPos
 	  this.bounds = new BoundingBox(xPos, yPos, width, height);
+	  this.id = (Math.random() * 65535).toString(16);
 	}
 }
   
 /**
- * Player class
+ * PlayerEntity class  
+ * Extends the Entity with:  
+ * @member Color: an object with RGBA values 
  */
-class Player extends Entity {
-	color = { R: 200, G: 0, B: 0, A: 255 }
+class PlayerEntity extends Entity {
+	Color = { R: 200, G: 0, B: 0, A: 255 }
   
 	constructor(xPos, yPos, width, height) {
 	  super(xPos, yPos, height, width)
@@ -65,7 +90,7 @@ class Player extends Entity {
 	}
   
 	draw() {
-	  fill(this.color.R, this.color.G, this.color.B, this.color.A)
+	  fill(this.Color.R, this.Color.G, this.Color.B, this.Color.A)
 	  stroke("black")
 	  rect(
 		this.bounds.left,
@@ -77,16 +102,19 @@ class Player extends Entity {
 }
   
 /**
- * Bottle class
+ * Drink class
+ * Extends the Entity class with:
+ * 
  */
-class Bottle extends Entity {
-	static width = 10
-	static height = 30
+class Drink extends Entity {
+	static width = 20;
+	static height = 60;
 	color = { R: 0, G: 200, B: 0, A: 255 }
 	fallSpeed = 5
   
 	constructor(xPos, yPos) {
-	  super(xPos, yPos, Bottle.width, Bottle.height)
+		super(xPos, yPos, Drink.width, Drink.height)
+		this.Texture = textures.boga;
 	}
   
 	update() {
@@ -94,16 +122,15 @@ class Bottle extends Entity {
 		this.yPos += this.fallSpeed
 		//Ensure still in playfield
 		if(this.yPos > height){
-			console.warn("yes", bottles.indexOf(this));
-			bottles.splice(bottles.indexOf(this), 1);
+			this.kill()
 		}
 	  	super.update()
-	  	if (this.isCollidingWith(player) && this.color.A > 0) {
+	  	if (this.isCollidingWith(Player) && this.color.A > 0) {
 			this.color.A = 0
 			sounds.b.setVolume(0.5);
 			sounds.b.rate(1.5);
 			sounds.b.play();
-			bottles.splice(bottles.indexOf(this), 1);
+			this.kill()
 	  	}
 	  	else{
 			this.draw();
@@ -111,20 +138,44 @@ class Bottle extends Entity {
 	}
   
 	draw() {
-	  fill(this.color.R, this.color.G, this.color.B, this.color.A)
-	  if (this.color.A == 0) noStroke()
-	  else stroke("black")
-	  rect(
-		this.bounds.left,
-		this.bounds.top,
-		this.bounds.width,
-		this.bounds.height
-	  )
+		fill(this.color.R, this.color.G, this.color.B, this.color.A)
+		texture(this.Texture);
+		rect(
+			this.bounds.left,
+			this.bounds.top,
+			this.bounds.width,
+			this.bounds.height
+	  	);
 	}
 
+	/**
+	 * Modify gravity function
+	 * @param {Number} newVal The new gravity
+	 * @returns a clone of the object, for easily modifying on init.
+	 */
 	updateFallSpeed(newVal){
 		this.fallSpeed = newVal;
 		return this;
+	}
+
+	/**
+	 * Helper for culling from entity tracker
+	 */
+	kill(){
+		Drinks.delete(this.ID);
+	}
+}
+
+/**
+ * Bottle class
+ */
+class Bottle extends Drink {
+	static width = 22.85;
+	static height = 60;
+
+	constructor(xPos, yPos) {
+		super(xPos, yPos, Drink.width, Drink.height)
+		this.Texture = textures.boga;
 	}
 }
   
