@@ -1,10 +1,18 @@
 //Global variables
 let Player;
-let Drinks = new Map();
+let Drinks;
 
 //Global media containers
 let sounds;
-let textures;
+let textures = {
+	boga: "",
+	granges: "",
+	gredos: "",
+	korg: "",
+	pripps_b: "",
+	pripps: "",
+	vagn: "",
+}
 
 function preload() {
 	soundFormats("wav");
@@ -25,10 +33,13 @@ function preload() {
 			return x;
 		})()
 	};
-	textures = {
-		pripps: loadImage("./resource/img/pripps.png"),
-		pripps_b: loadImage("./resource/img/pripps_b.png"),
-		boga: loadImage("./resource/img/boga.png")
+	
+	//Load textures based on the key-names already defined in the textures object.
+	//Failure callback perhaps temporary, PNG file format is a must for alpha layer.
+	for (let key in textures) {
+		textures[key] = loadImage("./resource/img/"+[key]+".png", null, () => {
+			textures[key] = loadImage("./resource/img/"+[key]+".jpg");
+		});
 	}
 }
 
@@ -39,7 +50,7 @@ function setup() {
   var wW = wH * displayRatio;
   var x = createCanvas(wW, wH, "webgl");
   x.mouseClicked(clickHandler);
-  Player = new PlayerEntity(0, height - 50, 50, 50);
+  Player = new PlayerEntity(0, height - 50, 80);
   Drinks = new Map();
   trash = [];
 }
@@ -90,7 +101,7 @@ function spawnBottle(optionalX){
 	let margin = 5;
 	let maxLeft = width - (Bottle.width + margin);
 	let xPos = !optionalX ? Math.random() * maxLeft : optionalX;
-	let yPos = 0;
+	let yPos = 0 - Bottle.height;
 
 	//Determine the fall speed
 	let baseSpeed = 5;
