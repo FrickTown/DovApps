@@ -14,8 +14,10 @@ class Entity {
 	X;
 	Y;
 
+	static SizeRatio = (tex) => { return !tex ? 1 : tex.height / tex.width; }
+
 	//super update, should be called when bounding box changes have been made.
-	update() {
+	Update() {
 	  this.Bounds.update(this.X, this.Y)
 	}
 
@@ -54,18 +56,18 @@ class Entity {
  */
 class BoundingBox {
 	constructor(x, y, w, h) {
-	  	this.left = x
-	  	this.top = y
-	  	this.right = x + w
-	  	this.bottom = y + h
-	  	this.width = w
-	  	this.height = h
+	  	this.left = x;
+	  	this.top = y;
+	  	this.right = x + w;
+	  	this.bottom = y + h;
+	  	this.width = w;
+	  	this.height = h;
 	}
   
 	update(newX, newY) {
-		this.left = newX
-	  	this.top = newY
-	  	this.right = newX + this.width
-	  	this.bottom = newY + this.height
+		this.left = newX;
+	  	this.top = newY;
+	  	this.right = newX + this.width;
+	  	this.bottom = newY + this.height;
 	}
 }

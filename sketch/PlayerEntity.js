@@ -10,25 +10,25 @@ class PlayerEntity extends Entity {
 
 	constructor(xPos, yPos, width) {
 		super(xPos, yPos, width, width);
-		this.Texture = textures.korg;
+		this.Texture = Textures.korg;
 		this.SizeRatio = this.Texture.height / this.Texture.width;
 		this.Bounds.height = this.Bounds.width * this.SizeRatio;
 	}
 
-	update() {
+	Update() {
 		var nextX = mouseX;
 		if (nextX <= 0) nextX = 0;
 		if (nextX + this.Bounds.width >= width) nextX = width - this.Bounds.width;
 		this.X = nextX;
 		this.Y = height - this.Bounds.height;
 		//Ancestor's 
-		super.update();
+		super.Update();
 	}
 
-	draw() {
+	Draw() {
 		fill(this.Color.R, this.Color.G, this.Color.B, this.Color.A);
 		stroke("black");
-		texture(textures.korg);
+		texture(Textures.korg);
 		rect(
 			this.Bounds.left,
 			this.Bounds.top,

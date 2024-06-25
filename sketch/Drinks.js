@@ -4,40 +4,39 @@
  *
  */
 class Drink extends Entity {
-	static width = 20;
-	static height = 60;
-	color = { R: 0, G: 200, B: 0, A: 255 };
-	fallSpeed = 5;
+	static WIDTH = 20;
+	static HEIGHT = 60;
+	Color = { R: 0, G: 200, B: 0, A: 255 };
+	FallSpeed = 5;
 
-	constructor(xPos, yPos) {
-		super(xPos, yPos, Drink.width, Drink.height)
-		this.Texture = textures.boga
+	constructor(xPos, yPos, width, height) {
+		super(xPos, yPos, width, height);
+		this.Texture = Textures.boga;
 	}
 
-	update() {
+	Update() {
 		//Gravity
-		this.Y += this.fallSpeed
+		this.Y += this.FallSpeed;
 		//Ensure still in playfield
 		if (this.Y > height) {
-			console.log("Height kill")
-			this.kill()
+			//console.log("Height kill")
+			this.Kill()
 		}
-		super.update()
-		if (this.isCollidingWith(Player) && this.color.A > 0) {
-			console.log("Height kill")
-			this.color.A = 0
-			sounds.b.setVolume(0.5)
-			sounds.b.rate(1.5)
-			sounds.b.play()
-			this.kill()
+		super.Update()
+		if (this.isCollidingWith(Player) && this.Color.A > 0) {
+			//console.log("Player kill")
+			this.OnPlayerCatch();
 		}
 		else {
-			this.draw()
+			this.Draw()
 		}
 	}
 
-	draw() {
-		fill(this.color.R, this.color.G, this.color.B, this.color.A)
+	Draw() {
+		fill(this.Color.R, this.Color.G, this.Color.B, this.Color.A)
+		if(!this.Texture || this.Texture == "none"){
+			this.Texture = Textures.korg;
+		}
 		texture(this.Texture)
 		rect(
 			this.Bounds.left,
@@ -47,49 +46,73 @@ class Drink extends Entity {
 		)
 	}
 
+	OnPlayerCatch(){
+		this.Color.A = 0;
+		this.Kill();
+		this.CatchCallback();
+	}
+
+	CatchCallback(){
+		return;
+	}
+
 	/**
 	 * Modify gravity function
 	 * @param {Number} newVal The new gravity
 	 * @returns a clone of the object, for easily modifying on init.
 	 */
-	updateFallSpeed(newVal) {
-		this.fallSpeed = newVal
-		return this
+	UpdateFallSpeed(newVal) {
+		this.FallSpeed = newVal;
+		return this;
 	}
 
 	/**
 	 * Helper for culling from entity tracker
 	 */
-	kill() {
+	Kill() {
 		Drinks.delete(this.ID)
 	}
 }
-/**
- * Bottle class
- */
-class Bottle extends Drink {
-	static width = 22.85;
-	static height = 60;
 
-	constructor(xPos, yPos) {
-        var tex = textures.granges;
-        var SizeRatio = tex.height / tex.width;
-		super(xPos, yPos, Bottle.width, Bottle.width * SizeRatio)
-		//this.Texture = textures.granges;
-        //this.SizeRatio = this.Texture.height / this.Texture.width;
-        console.log(this.SizeRatio, Bottle.height / Bottle.width)
-        //this.Bounds.width = this.Texture.width * this.SizeRatio;
-	}
-}
 /**
  * Can class
  */
 class Can extends Drink {
-	static width = 22.85;
-	static height = 60;
+	static WIDTH = 22.85;
+	static BASEFALLSPEED = 5;
+	constructor(xPos, yPos, tex) {
+		super(xPos, yPos, Can.WIDTH, Can.WIDTH * Entity.SizeRatio(tex));
+		this.Texture = tex;
+	}
+}
 
-	constructor(xPos, yPos) {
-		super(xPos, yPos, Can.width, Can.height)
-		this.Texture = textures.boga
+/**
+ * Bottle class
+ */
+class Bottle extends Drink {
+	static WIDTH = 22.85;
+	static BASEFALLSPEED = 10;
+	constructor(xPos, yPos, tex) {
+		super(xPos, yPos, Bottle.WIDTH, Bottle.WIDTH * Entity.SizeRatio(tex))
+		this.Texture = tex;
+	}
+}
+
+/**
+ * Bib class
+ */
+class Bib extends Drink {
+	static WIDTH = 50.85;
+	static BASEFALLSPEED = 15;
+	constructor(xPos, yPos, tex) {
+		super(xPos, yPos, Bib.WIDTH, Bib.WIDTH * Entity.SizeRatio(tex));
+		this.Texture = tex;
+	}
+
+	CatchCallback(){
+		Sounds.b.setVolume(0.5);
+		Sounds.b.rate(1.5);
+		Sounds.b.play();
+		CanvasContext.ShakeScreen(0, 1, 100);
 	}
 }
