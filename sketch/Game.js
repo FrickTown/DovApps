@@ -8,6 +8,7 @@ function GameDraw(){
   	Player.Draw()
 
 	//Update all living drinks, cull those that are dead
+	//Iterate through the map, Update them linearly
 	iterator = Drinks[Symbol.iterator]();
 	element = iterator.next();
 	while(!element.done){
@@ -15,7 +16,7 @@ function GameDraw(){
 		element = iterator.next();
 	}
 
-	//Spawn a new drink at set intervals
+	//Spawn a new drink at set intervals by iterating through the DrinkManager's available tabs
 	for (var property in DrinkManager) {
 		if (Object.prototype.hasOwnProperty.call(DrinkManager, property)) {
 			let drinkType = DrinkManager[property]

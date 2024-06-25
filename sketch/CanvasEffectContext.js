@@ -4,6 +4,8 @@ class CanvasEffectContext {
     dom;
     relativePos;
 
+    ActiveEffects = new Map();
+
     constructor(p5canvas){
         this.p5 = p5canvas;
         this.dom = p5canvas.elt;
@@ -35,6 +37,13 @@ class CanvasEffectContext {
             console.log(newString);
             this.dom.style.transform = newString;
         }
-
+        //Draw all active effects, cull those that are dead
+        //Iterate through the map, Update them sequentially in life order.
+        iterator = this.ActiveEffects[Symbol.iterator]();
+        element = iterator.next();
+        while(!element.done){
+            element.value[1].Draw();
+            element = iterator.next();
+        }
     }
 }
