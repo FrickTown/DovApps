@@ -79,7 +79,7 @@ class Drink extends Entity {
  */
 class Can extends Drink {
 	static WIDTH = 22.85;
-	static BASEFALLSPEED = 5;
+	static BASEFALLSPEED = 10;
 	constructor(xPos, yPos, tex) {
 		super(xPos, yPos, Can.WIDTH, Can.WIDTH * Entity.SizeRatio(tex));
 		this.Texture = tex;
@@ -91,7 +91,7 @@ class Can extends Drink {
  */
 class Bottle extends Drink {
 	static WIDTH = 22.85;
-	static BASEFALLSPEED = 10;
+	static BASEFALLSPEED = 12.5;
 	constructor(xPos, yPos, tex) {
 		super(xPos, yPos, Bottle.WIDTH, Bottle.WIDTH * Entity.SizeRatio(tex))
 		this.Texture = tex;
@@ -114,5 +114,6 @@ class Bib extends Drink {
 		Sounds.b.rate(1.5);
 		Sounds.b.play();
 		CanvasContext.ShakeScreen(0, 1, 100);
+		new AlertBubble();
 	}
 }

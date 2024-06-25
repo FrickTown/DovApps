@@ -22,7 +22,7 @@ function MenuDraw() {
         textFont(Fonts.marker);
         textAlign(CENTER);
         textSize(30);
-        text("DovStrip: Alkis Edition", width/2, (height/4) * 2.25, );
+        text("DovStrip: Alkis Edition", width/2, (height/4) * 2.25);
         textSize(65)
         text("Lira", width/2, (height/4) * 3);
     pop();
