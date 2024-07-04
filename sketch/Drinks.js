@@ -84,6 +84,9 @@ class Can extends Drink {
 		super(xPos, yPos, Can.WIDTH, Can.WIDTH * Entity.SizeRatio(tex));
 		this.Texture = tex;
 	}
+	CatchCallback(){
+		Sounds.swoosh.play();
+	}
 }
 
 /**
@@ -96,6 +99,10 @@ class Bottle extends Drink {
 		super(xPos, yPos, Bottle.WIDTH, Bottle.WIDTH * Entity.SizeRatio(tex))
 		this.Texture = tex;
 	}
+	CatchCallback(){
+		Sounds.swoosh.rate(2 + Math.random() * 0.25);
+		Sounds.swoosh.play();
+	}
 }
 
 /**
@@ -104,16 +111,41 @@ class Bottle extends Drink {
 class Bib extends Drink {
 	static WIDTH = 50.85;
 	static BASEFALLSPEED = 15;
+
+	StarEffect;
+
 	constructor(xPos, yPos, tex) {
 		super(xPos, yPos, Bib.WIDTH, Bib.WIDTH * Entity.SizeRatio(tex));
 		this.Texture = tex;
+		this.StarEffect = new StarEntity(this.Bounds.left + this.Bounds.width/2, this.Bounds.top + this.Bounds.height/2, 50);
+	}
+
+	Draw(){
+		this.StarEffect.update(this.Bounds.center());
+		this.StarEffect.draw();
+		texture(this.Texture);
+		rect(
+			this.Bounds.left,
+			this.Bounds.top,
+			this.Bounds.width,
+			this.Bounds.height
+		);
 	}
 
 	CatchCallback(){
-		Sounds.b.setVolume(0.5);
-		Sounds.b.rate(1.5);
+		CanvasContext.ShakeScreen(0, 1, 50);
+		//Only increase the GredosLevel if we're not at the level cap yet
+		GameFlags.GredosLevel = GameFlags.GredosLevel + 1 > GameFlags.MaxGredos ? GameFlags.MaxGredos : GameFlags.GredosLevel + 1;
+		//Gradually increase the pitch of the Bib catch noise for GredosLevel
+		Sounds.b.rate(1 + ((1/GameFlags.MaxGredos) * GameFlags.GredosLevel));
 		Sounds.b.play();
-		CanvasContext.ShakeScreen(0, 1, 100);
+		if(GameFlags.GredosLevel == GameFlags.MaxGredos){
+			var x = new p5.Reverb();
+			x.process(Sounds.a, 3, 2);
+			x.drywet(1);
+			Sounds.a.disconnect();
+			Sounds.a.play();
+		}
 		new AlertBubble();
 	}
 }

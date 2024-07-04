@@ -8,12 +8,17 @@ class UIElement {
 }
 
 class AlertBubble extends UIElement {
+
+    GredosBarMaxWidth;
+
     constructor(){
         super();
         this.LifeTime = 250;
+        this.GredosBarMaxWidth = width/2;
+        //Add the bubble to the list of active effects
         CanvasContext.ActiveEffects.set(this.ID, this);
-        GameFlags.GredosLevel = GameFlags.GredosLevel + 1 > GameFlags.MaxGredos ? GameFlags.MaxGredos : GameFlags.GredosLevel + 1;
     }
+    
 
     Draw(){
         //Drawing context
@@ -26,17 +31,22 @@ class AlertBubble extends UIElement {
             textAlign(CENTER);
             fill(255, 255, 255, this.LifeTime);
             textSize(35);
-            text("GredosLevel:", 0, 0);
+            text("GredosPower:", 0, 0);
+            if (GameFlags.GredosLevel == GameFlags.MaxGredos){
+                textSize(20);
+                text("Startklar och Gredo", 0, 35);
+                translate(0, 25);
+            }
 
             //Gredos-bar
             stroke(255, 255, 255, this.LifeTime);
             strokeWeight(2);
             noFill();
             rectMode(CENTER);
-            rect(0, 35, 100 * GameFlags.MaxGredos, 15);
-            fill(255, 0, 0, this.LifeTime);
+            rect(0, 35, this.GredosBarMaxWidth, 15);
+            fill(137, 224, 65, this.LifeTime);
             rectMode(CENTER);
-            rect(0, 35, 100 * GameFlags.GredosLevel, 15);
+            rect(0, 35, (this.GredosBarMaxWidth/GameFlags.MaxGredos) * GameFlags.GredosLevel, 15);
         pop();
         
         //Apply life drain, kill if past life limit.

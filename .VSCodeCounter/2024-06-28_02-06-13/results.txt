@@ -1,0 +1,43 @@
+Date : 2024-06-28 02:06:13
+Directory : /home/frick/Documents/DovApps
+Total : 13 files,  492 codes, 136 comments, 76 blanks, all 704 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JavaScript         |         10 |        449 |        136 |         69 |        654 |
+| HTML               |          1 |         21 |          0 |          5 |         26 |
+| CSS                |          1 |         12 |          0 |          2 |         14 |
+| JSON with Comments |          1 |         10 |          0 |          0 |         10 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                        | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                           |         13 |        492 |        136 |         76 |        704 |
+| . (Files)                                                   |          3 |         43 |          0 |          7 |         50 |
+| libraries                                                   |          2 |          2 |          2 |          0 |          4 |
+| sketch                                                      |          8 |        447 |        134 |         69 |        650 |
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                    | language           | code       | comment    | blank      | total      |
++-------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| /home/frick/Documents/DovApps/index.html                    | HTML               |         21 |          0 |          5 |         26 |
+| /home/frick/Documents/DovApps/jsconfig.json                 | JSON with Comments |         10 |          0 |          0 |         10 |
+| /home/frick/Documents/DovApps/libraries/p5.min.js           | JavaScript         |          1 |          1 |          0 |          2 |
+| /home/frick/Documents/DovApps/libraries/p5.sound.min.js     | JavaScript         |          1 |          1 |          0 |          2 |
+| /home/frick/Documents/DovApps/sketch/CanvasEffectContext.js | JavaScript         |         35 |         15 |          4 |         54 |
+| /home/frick/Documents/DovApps/sketch/Drinks.js              | JavaScript         |         96 |         28 |         11 |        135 |
+| /home/frick/Documents/DovApps/sketch/Entity.js              | JavaScript         |         42 |         24 |          7 |         73 |
+| /home/frick/Documents/DovApps/sketch/Game.js                | JavaScript         |         63 |         28 |         11 |        102 |
+| /home/frick/Documents/DovApps/sketch/Menu.js                | JavaScript         |         28 |          3 |          5 |         36 |
+| /home/frick/Documents/DovApps/sketch/PlayerEntity.js        | JavaScript         |         29 |          6 |          5 |         40 |
+| /home/frick/Documents/DovApps/sketch/UIElements.js          | JavaScript         |         47 |          6 |          9 |         62 |
+| /home/frick/Documents/DovApps/sketch/sketch.js              | JavaScript         |        107 |         24 |         17 |        148 |
+| /home/frick/Documents/DovApps/style.css                     | CSS                |         12 |          0 |          2 |         14 |
+| Total                                                       |                    |        492 |        136 |         76 |        704 |
++-------------------------------------------------------------+--------------------+------------+------------+------------+------------+

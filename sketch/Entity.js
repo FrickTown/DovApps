@@ -70,4 +70,44 @@ class BoundingBox {
 	  	this.right = newX + this.width;
 	  	this.bottom = newY + this.height;
 	}
+
+	center = () => { return {x: this.left + this.width/2, y: this.top + this.height/2}; }
+}
+
+class StarEntity {
+	x;
+	y;
+	size;
+	rad = 0;
+	resolution = 12;
+	constructor(x, y, size){
+		this.x = x;
+		this.y = y;
+		this.size = size;
+	}
+
+	update(obj){
+		this.x = obj.x;
+		this.y = obj.y;
+	}
+
+	draw(){
+		this.rad += 0.04;
+		strokeWeight(3);
+		let increment = TAU / this.resolution;
+		for(let i = 0; i < this.resolution; i++){
+			stroke(255, 255, 255, 255);
+			let modrad = this.rad + (increment * i)
+			line(this.x, this.y, 
+				this.x + cos(modrad) * (this.size * (sin(this.rad)/4 + 1) ), 
+				this.y + sin(modrad) * (this.size * (sin(this.rad)/4 + 1) ));
+			stroke(100, 255, 100, 255);
+			modrad = this.rad + (increment * (i + 0.5))
+			line(this.x, this.y, 
+				this.x + cos(modrad) * (this.size * (cos(this.rad)/5 + 1) ), 
+				this.y + sin(modrad) * (this.size * (cos(this.rad)/5 + 1) ));
+			
+		}
+		noStroke();
+	}
 }

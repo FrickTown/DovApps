@@ -4,8 +4,10 @@ html, body {
   display: grid;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 canvas {
   display: block;
+  transition: 0.1s;
 }

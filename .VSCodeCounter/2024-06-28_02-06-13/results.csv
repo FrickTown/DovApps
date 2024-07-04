@@ -1,0 +1,15 @@
+"filename", "language", "CSS", "JavaScript", "HTML", "JSON with Comments", "comment", "blank", "total"
+"/home/frick/Documents/DovApps/index.html", "HTML", 0, 0, 21, 0, 0, 5, 26
+"/home/frick/Documents/DovApps/jsconfig.json", "JSON with Comments", 0, 0, 0, 10, 0, 0, 10
+"/home/frick/Documents/DovApps/libraries/p5.min.js", "JavaScript", 0, 1, 0, 0, 1, 0, 2
+"/home/frick/Documents/DovApps/libraries/p5.sound.min.js", "JavaScript", 0, 1, 0, 0, 1, 0, 2
+"/home/frick/Documents/DovApps/sketch/CanvasEffectContext.js", "JavaScript", 0, 35, 0, 0, 15, 4, 54
+"/home/frick/Documents/DovApps/sketch/Drinks.js", "JavaScript", 0, 96, 0, 0, 28, 11, 135
+"/home/frick/Documents/DovApps/sketch/Entity.js", "JavaScript", 0, 42, 0, 0, 24, 7, 73
+"/home/frick/Documents/DovApps/sketch/Game.js", "JavaScript", 0, 63, 0, 0, 28, 11, 102
+"/home/frick/Documents/DovApps/sketch/Menu.js", "JavaScript", 0, 28, 0, 0, 3, 5, 36
+"/home/frick/Documents/DovApps/sketch/PlayerEntity.js", "JavaScript", 0, 29, 0, 0, 6, 5, 40
+"/home/frick/Documents/DovApps/sketch/UIElements.js", "JavaScript", 0, 47, 0, 0, 6, 9, 62
+"/home/frick/Documents/DovApps/sketch/sketch.js", "JavaScript", 0, 107, 0, 0, 24, 17, 148
+"/home/frick/Documents/DovApps/style.css", "CSS", 12, 0, 0, 0, 0, 2, 14
+"Total", "-", 12, 449, 21, 10, 136, 76, 704

@@ -5,7 +5,7 @@ let CanvasContext;
 
 let GameFlags = {
 	GredosLevel: 0,
-	MaxGredos: 3
+	MaxGredos: 6
 }
 
 //Global media containers
@@ -36,13 +36,30 @@ function preload() {
 			return x;
 		})(),
 		//Simplest case
-		b: loadSound("./resource/sfx/Electronic high shot"),
+		b: (() => {
+			var x = loadSound("./resource/sfx/Electronic high shot");
+			x.setVolume(0.25);
+			x.rate(0.75);
+			return x;
+		})(),
 		bouw: (() => {
 			var x = loadSound("./resource/sfx/bouw");
-			x.setVolume(0.2);
-			x.rate(1.5);
+			x.setVolume(0.1);
+			x.rate(1.1);
 			return x;
-		})()
+		})(),
+		klirr: (() => {
+			var x = loadSound("./resource/sfx/klirr");
+			x.setVolume(0.1);
+			x.rate(1.1);
+			return x;
+		})(),
+		swoosh: (() => {
+			var x = loadSound("./resource/sfx/swoosh");
+			x.setVolume(0.1);
+			x.rate(2);
+			return x;
+		})(),
 	};
 	
 	//Load textures based on the key-names already defined in the Textures object.
@@ -128,74 +145,4 @@ function clickHandler() {
 		Sounds.bouw.play();
 		console.log("New Bottle placed:", mouseX, mouseY);
 	}
-}
-
-/**
- * Helper for spawning a can
- * @param {Number} optionalX An optional x-value to set, instead of randomized value.
- */
-function spawnCan(optionalX){
-	//Determine the texture
-	let availableTex = [Textures.pripps, Textures.pripps_b, Textures.boga]
-	//Hack to ensure no negative indeces are chosen.
-	let randomIndex = Math.max(0, Math.floor(Math.random() * availableTex.length - 0.00001));
-	let tex = availableTex[randomIndex];
-	//Determine x-coordinate
-	let margin = 5;
-	let maxLeft = width - (Can.WIDTH + margin); //Determines the maximum value for Bounds.left of the entity to not spawn out of bounds
-	let xPos = !optionalX ? Math.random() * maxLeft : optionalX;
-	let yPos = 0 - Can.WIDTH * Can.SizeRatio(tex); //Ensures drink is spawned above screen edge
-
-	//Determine the fall speed
-	let speedSpread = 1.25
-	var newCan = new Can(xPos, yPos, tex).UpdateFallSpeed(Can.BASEFALLSPEED + ((Math.random() * speedSpread) - (speedSpread/2)));
-	Drinks.set(newCan.ID, newCan);
-	Sounds.bouw.play();
-}
-
-/**
- * Helper for spawning a bottle
- * @param {Number} optionalX An optional x-value to set, instead of randomized value.
- */
-function spawnBottle(optionalX){
-	//Determine the texture
-	let availableTex = [Textures.granges]
-	//Hack to ensure no negative indeces are chosen.
-	let randomIndex = Math.max(0, Math.floor(Math.random() * availableTex.length - 0.00001));
-	let tex = availableTex[randomIndex];
-	//Determine x-coordinate
-	let margin = 5;
-	let maxLeft = width - (Bottle.WIDTH + margin);
-	let xPos = !optionalX ? Math.random() * maxLeft : optionalX;
-	let yPos = 0 - Bottle.WIDTH * Bottle.SizeRatio(tex);
-
-	//Determine the fall speed
-	let speedSpread = 2.5
-	var newBottle = new Bottle(xPos, yPos, tex).UpdateFallSpeed(Bottle.BASEFALLSPEED + ((Math.random() * speedSpread) - (speedSpread/2)));
-	Drinks.set(newBottle.ID, newBottle);
-	Sounds.bouw.play();
-}
-
-/**
- * Helper for spawning a bib
- * @param {Number} optionalX An optional x-value to set, instead of randomized value.
- */
-function spawnBib(optionalX){
-	//Determine the texture
-	let availableTex = [Textures.gredos]
-	//Hack to ensure no negative indeces are chosen.
-	let randomIndex = Math.max(0, Math.floor(Math.random() * availableTex.length - 0.00001));
-	let tex = availableTex[randomIndex];
-
-	//Determine x-coordinate
-	let margin = 5;
-	let maxLeft = width - (Bib.WIDTH + margin);
-	let xPos = !optionalX ? Math.random() * maxLeft : optionalX;
-	let yPos = 0 - Bib.WIDTH * Bib.SizeRatio(tex);
-
-	//Determine the fall speed
-	let speedSpread = 2.5
-	var newBib = new Bib(xPos, yPos, tex).UpdateFallSpeed(Bib.BASEFALLSPEED + ((Math.random() * speedSpread) - (speedSpread/2)));
-	Drinks.set(newBib.ID, newBib);
-	Sounds.bouw.play();
 }

@@ -3,6 +3,7 @@ class CanvasEffectContext {
     p5;
     dom;
     relativePos;
+    rotation;
 
     ActiveEffects = new Map();
 
@@ -11,6 +12,7 @@ class CanvasEffectContext {
         this.dom = p5canvas.elt;
         this.relativePos = createVector(0, 0);
         this.VectorZero = createVector(0, 0);
+        this.rotation = 0;
     }
     /**
      * Send the canvas in a direction specified by the vector argument (intended to be normalized),
@@ -23,6 +25,7 @@ class CanvasEffectContext {
     ShakeScreen = function(x, y, scale){
         this.relativePos.add(createVector(x, y).mult(scale));
     }
+    
     /**
      * 
      * @param {*} context 
@@ -33,10 +36,10 @@ class CanvasEffectContext {
                 this.relativePos.set(0, 0);
             }
             this.relativePos.lerp(VectorZero, 0.2);
-            let newString = `translate(${this.relativePos.x}px, ${this.relativePos.y}px)`;
-            console.log(newString);
-            this.dom.style.transform = newString;
         }
+        //Set the CSS transform properties based on the objects properties
+        let newString = `translate(${this.relativePos.x}px, ${this.relativePos.y}px) rotate(${this.rotation}deg)`;
+        this.dom.style.transform = newString;
         //Draw all active effects, cull those that are dead
         //Iterate through the map, Update them sequentially in life order.
         iterator = this.ActiveEffects[Symbol.iterator]();
