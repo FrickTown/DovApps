@@ -1,11 +1,12 @@
+
 function GameDraw(){
 	noStroke();
 	//Set origin to top left corner
   	translate(-width / 2, -height / 2)
   	background(0)
   	fill(255, 0, 0)
-  	Player.Update()
-  	Player.Draw()
+  	Player.Update();
+  	Player.Draw();
 
 	//Update all living drinks, cull those that are dead
 	//Iterate through the map, Update them linearly
@@ -27,7 +28,9 @@ function GameDraw(){
 		}
 	}
 
+	//Draw all the UI elements and update the canvas context properties.
 	CanvasContext.Update();
+	//startest.draw();
 }
 
 /**

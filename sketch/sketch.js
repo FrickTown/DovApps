@@ -3,9 +3,13 @@ let Player;
 let Drinks;
 let CanvasContext;
 
+let startest;
+
 let GameFlags = {
 	GredosLevel: 0,
-	MaxGredos: 6
+	MaxGredos: 2,
+	TouchScreen: false,
+	Score: 0,
 }
 
 //Global media containers
@@ -15,6 +19,7 @@ let Textures = {
 	granges: "",
 	gredos: "",
 	korg: "",
+	korg_nocolor:"",
 	pripps_b: "",
 	pripps: "",
 	vagn: "",
@@ -104,12 +109,16 @@ function setup() {
   //Global variable
   CanvasContext = new CanvasEffectContext(x);
 
-  //Register handler to click event
+  //Register handlers to click/touch events
   x.mouseClicked(clickHandler);
+  x.doubleClicked(doubleClickHandler);
+  x.touchStarted(touchStartHandler);
+  x.touchEnded(touchEndHandler);
 
   //Create player and drink entity list. Global variables.
   Player = new PlayerEntity(0, height - 50, 80);
   Drinks = new Map();
+  startest = new StarEntity(width/2, height/2, 50);
 }
 
 //DrinkManager keeps track of when to spawn drinks and which callback to execute on spawntime.
@@ -145,4 +154,24 @@ function clickHandler() {
 		Sounds.bouw.play();
 		console.log("New Bottle placed:", mouseX, mouseY);
 	}
+}
+
+function doubleClickHandler(e){
+	if (GameState == GameStates.game){
+		Player.ActivateGredosPower();
+	}
+}
+
+function touchStartHandler(e){
+	if (GameState == GameStates.menu){
+		MenuFadeOut();
+		GameFlags.TouchScreen = true;
+	}
+	//If two finger touch
+	if(GameState == GameStates.game && touches.length > 1){
+		Player.ActivateGredosPower();
+	}
+}
+
+function touchEndHandler(e){
 }

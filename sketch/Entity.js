@@ -78,8 +78,8 @@ class StarEntity {
 	x;
 	y;
 	size;
-	rad = 0;
-	resolution = 12;
+	rad = 0; // Initial rotation in radians
+	resolution = 12; // Number of large rays around circumference
 	constructor(x, y, size){
 		this.x = x;
 		this.y = y;
@@ -92,20 +92,25 @@ class StarEntity {
 	}
 
 	draw(){
+		//Ensure rotation 
 		this.rad += 0.04;
 		strokeWeight(3);
 		let increment = TAU / this.resolution;
 		for(let i = 0; i < this.resolution; i++){
-			stroke(255, 255, 255, 255);
+			// Longer rays
+			stroke(86, 170, 22, 255);
 			let modrad = this.rad + (increment * i)
 			line(this.x, this.y, 
 				this.x + cos(modrad) * (this.size * (sin(this.rad)/4 + 1) ), 
-				this.y + sin(modrad) * (this.size * (sin(this.rad)/4 + 1) ));
-			stroke(100, 255, 100, 255);
+				this.y + sin(modrad) * (this.size * (sin(this.rad)/4 + 1) )
+			);
+			// Shorter, intermittent rays
+			stroke(208, 223, 208, 255);
 			modrad = this.rad + (increment * (i + 0.5))
 			line(this.x, this.y, 
 				this.x + cos(modrad) * (this.size * (cos(this.rad)/5 + 1) ), 
-				this.y + sin(modrad) * (this.size * (cos(this.rad)/5 + 1) ));
+				this.y + sin(modrad) * (this.size * (cos(this.rad)/5 + 1) )
+			);
 			
 		}
 		noStroke();

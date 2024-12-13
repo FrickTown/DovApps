@@ -48,6 +48,7 @@ class Drink extends Entity {
 
 	OnPlayerCatch(){
 		this.Color.A = 0;
+		GameState.Score += this.VALUE;
 		this.Kill();
 		this.CatchCallback();
 	}
@@ -80,6 +81,7 @@ class Drink extends Entity {
 class Can extends Drink {
 	static WIDTH = 22.85;
 	static BASEFALLSPEED = 10;
+	static VALUE = 1;
 	constructor(xPos, yPos, tex) {
 		super(xPos, yPos, Can.WIDTH, Can.WIDTH * Entity.SizeRatio(tex));
 		this.Texture = tex;
@@ -95,6 +97,8 @@ class Can extends Drink {
 class Bottle extends Drink {
 	static WIDTH = 22.85;
 	static BASEFALLSPEED = 12.5;
+	static VALUE = 2;
+
 	constructor(xPos, yPos, tex) {
 		super(xPos, yPos, Bottle.WIDTH, Bottle.WIDTH * Entity.SizeRatio(tex))
 		this.Texture = tex;
@@ -111,6 +115,7 @@ class Bottle extends Drink {
 class Bib extends Drink {
 	static WIDTH = 50.85;
 	static BASEFALLSPEED = 15;
+	static VALUE = 5;
 
 	StarEffect;
 
@@ -123,6 +128,8 @@ class Bib extends Drink {
 	Draw(){
 		this.StarEffect.update(this.Bounds.center());
 		this.StarEffect.draw();
+		strokeWeight(1);
+		stroke(0,0,0,150);
 		texture(this.Texture);
 		rect(
 			this.Bounds.left,
@@ -133,19 +140,20 @@ class Bib extends Drink {
 	}
 
 	CatchCallback(){
-		CanvasContext.ShakeScreen(0, 1, 50);
+		//Shake the screen along vector of {0, 1} (Straight down) with amplitude 50.
+		//CanvasContext.ShakeScreen(0, 1, 50);
 		//Only increase the GredosLevel if we're not at the level cap yet
-		GameFlags.GredosLevel = GameFlags.GredosLevel + 1 > GameFlags.MaxGredos ? GameFlags.MaxGredos : GameFlags.GredosLevel + 1;
+		Player.GredosLevel = Player.GredosLevel + 1 > GameFlags.MaxGredos ? GameFlags.MaxGredos : Player.GredosLevel + 1;
 		//Gradually increase the pitch of the Bib catch noise for GredosLevel
-		Sounds.b.rate(1 + ((1/GameFlags.MaxGredos) * GameFlags.GredosLevel));
+		Sounds.b.rate(1 + ((1/GameFlags.MaxGredos) * Player.GredosLevel));
 		Sounds.b.play();
-		if(GameFlags.GredosLevel == GameFlags.MaxGredos){
+		/*if(Player.GredosLevel == GameFlags.MaxGredos){
 			var x = new p5.Reverb();
 			x.process(Sounds.a, 3, 2);
 			x.drywet(1);
 			Sounds.a.disconnect();
 			Sounds.a.play();
-		}
-		new AlertBubble();
+		}*/
+		new MeterPopup();
 	}
 }
