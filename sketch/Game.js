@@ -28,6 +28,7 @@ function GameDraw(){
 		}
 	}
 
+	new ScoreKeeper();
 	//Draw all the UI elements and update the canvas context properties.
 	CanvasContext.Update();
 	//startest.draw();

@@ -15,13 +15,22 @@ class ScoreKeeper extends UIElement {
     ID = "scoreKeeper";
     LifeTime = -1;
 
+    constructor(){
+        super();
+        //Add the bubble to the list of active effects
+        CanvasContext.ActiveEffects.set(this.ID, this);
+    }
+    
     Draw(){
         //Drawing context
         push();
-        textFont(Fonts.marker);
-        textAlign(RIGHT);
-        textSize(20);
-        text("Score: " + GameState.Score);
+            translate(width/2, height/2);
+            textAlign(RIGHT);
+            textFont(Fonts.marker);
+            fill(255);
+            textSize(20);
+            text("Score: " + GameState.Score, 0 , 0);
+        pop();
     }
 }
 
